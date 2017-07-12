@@ -1,0 +1,31 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+class MixedPhones
+{
+    static void Main(string[] args)
+    {
+        char[] divider = new char[] { ' ', ':', ' ' };
+        string[] input = Console.ReadLine().Split(divider, StringSplitOptions.RemoveEmptyEntries).ToArray();
+        SortedDictionary<string, long> result = new SortedDictionary<string, long>();
+        long valueToEnter = new long();
+        while (!input.Contains("Over"))
+        {
+            if (long.TryParse(input[0], out valueToEnter))
+            {
+                result[input[1]] = valueToEnter;
+            }
+            else
+            {
+                result[input[0]] = long.Parse(input[1]);
+            }
+            input = Console.ReadLine().Split(divider, StringSplitOptions.RemoveEmptyEntries).ToArray();
+        }
+        foreach (var item in result)
+        {
+            Console.WriteLine($"{item.Key} -> {item.Value}");
+        }
+    }
+}      

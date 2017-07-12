@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+class DictRef
+{
+    static void Main(string[] args)
+    {
+        List<string> input = Console.ReadLine().Split( new char[] {' ', '=', ' '},StringSplitOptions.RemoveEmptyEntries).ToList();
+        Dictionary<string, int> result = new Dictionary<string, int>();
+        while (!input.Contains("end"))
+        {
+            int temp = new int();
+            string tempKey = input[0];
+            if (int.TryParse(input[1], out temp))
+            {
+                if (!input.Contains(tempKey))
+                {
+                    result.Add(tempKey, temp);
+                }
+                else
+                {
+                    result[tempKey] = temp;
+                }
+            }
+            else if(result.ContainsKey(input[1]))
+            {
+                int integerToEnter = new int();
+                result.TryGetValue(input[1], out integerToEnter);
+                result[input[0]] = integerToEnter; 
+            }
+            
+            input = Console.ReadLine().Split(new char[] { ' ', '=', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        }
+        foreach (var item in result)
+        {
+            Console.WriteLine($"{item.Key} === {item.Value}");
+        }
+    }
+}      

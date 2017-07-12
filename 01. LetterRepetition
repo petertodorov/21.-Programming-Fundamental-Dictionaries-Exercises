@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+class LetterRepetition
+{
+    static void Main(string[] args)
+    {
+        Dictionary<char, int> lettersToCount = new Dictionary<char, int>();
+        string input = Console.ReadLine();
+        char letter = new char();
+        int counter = 1;
+        while (input.Length>0)
+        {
+            letter = input.First();
+            if (!lettersToCount.ContainsKey(letter))
+            {
+                lettersToCount.Add(letter,counter);
+            }
+            else
+            {
+                int temp = new int();
+                lettersToCount.TryGetValue(letter, out temp);
+                temp++;
+                lettersToCount[letter] = temp;
+            }
+            input = input.Remove(0, 1);
+        }
+        foreach (var item in lettersToCount)
+        {
+            Console.WriteLine($"{item.Key} -> {item.Value}");
+        }
+    }
+}

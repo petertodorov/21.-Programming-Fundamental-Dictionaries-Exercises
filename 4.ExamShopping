@@ -4,67 +4,75 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _4.Exam_Shopping
+class ExamShopping
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        Dictionary<string, int> shop = new Dictionary<string, int>();
+        while (true)
         {
-            Dictionary<string, int> shop = new Dictionary<string, int>();
-
-            while (true)
+            string input = Console.ReadLine();
+            if (input.Equals("exam time"))
             {
-                string input = Console.ReadLine();
-                if (input.Equals("exam time")) break;
-                string[] command = input.Split(' ');
-                if (input == "shopping time") continue;
-                string product = command[1];
-                int quantity = int.Parse(command[2]);
-                if (command[0].Equals("stock"))
+                break;
+            }
+            if (input == "shopping time")
+            {
+                continue;
+            }
+            string[] command = input.Split(' ');
+            string product = command[1];
+            int quantity = int.Parse(command[2]);
+            if (command[0].Equals("stock"))
+            {
+                ShopStocking(shop, product, quantity);
+            }
+            else if (command[0].Equals("buy"))
+            {
+                if (!shop.ContainsKey(product))
                 {
-                    if (!shop.ContainsKey(product))
+                    Console.WriteLine($"{product} doesn't exist");
+                }
+                else if (shop.ContainsKey(product))
+                {
+                    int stock = shop[product];
+                    if (stock == 0)
                     {
-                        shop.Add(product, quantity);
+                        Console.WriteLine($"{product} out of stock");
+                    }
+                    else if (quantity > stock)
+                    {
+                        shop[product] = 0;
                     }
                     else
                     {
-                        shop[product] += quantity;
-                    }
-                }
-                else if (command[0].Equals("buy"))
-                {
-                    if (!shop.ContainsKey(product))
-                    {
-                        Console.WriteLine($"{product} doesn't exist");
-                    }
-                    else if (shop.ContainsKey(product))
-                    {
-                        int stock = shop[product];
-                        if (stock == 0)
-                        {
-                            Console.WriteLine($"{product} out of stock");
-                        
-                        }
-                        else if (quantity > stock)
-                        {
-                            shop[product] = 0;
-                        }
-                        else
-                        {
-                            shop[product] -= quantity;
-                        }
+                        shop[product] -= quantity;
                     }
                 }
             }
-            foreach (var item in shop)
+        }
+        PrintProducts(shop);
+    }
+    private static void ShopStocking(Dictionary<string, int> shop, string product, int quantity)
+    {
+        if (!shop.ContainsKey(product))
+        {
+            shop.Add(product, quantity);
+        }
+        else
+        {
+            shop[product] += quantity;
+        }
+    }
+    private static void PrintProducts(Dictionary<string, int> shop)
+    {
+        foreach (var item in shop)
+        {
+            if (item.Value == 0)
             {
-                if (item.Value == 0)
-                {
-                    continue;
-                }
-                Console.WriteLine($"{item.Key} -> {item.Value}");
+                continue;
             }
-
+            Console.WriteLine($"{item.Key} -> {item.Value}");
         }
     }
 }

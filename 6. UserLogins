@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+class UserLogins
+{
+    static void Main(string[] args)
+    {
+        string[] separator = new string[] { " -> " };
+        Dictionary<string, int> ageList = new Dictionary<string, int>();
+        Dictionary<string, double> salaryList = new Dictionary<string, double>();
+        Dictionary<string, string> positionList = new Dictionary<string, string>();
+        while (true)
+        {
+            string[] input = Console.ReadLine().Split(separator, StringSplitOptions.RemoveEmptyEntries).ToArray();
+            if (input.Contains("filter base"))
+            {
+                break;
+            }
+            else
+            {
+                int age = new int();
+                double salary = new double ();
+                string position = string.Empty;
+                string name = input[0];
+                string value = input[1];
+                if (int.TryParse(value, out age))
+                {
+                    ageList.Add(name, age);
+                }
+                else if (double.TryParse(value, out salary))
+                {
+                    salaryList.Add(name, salary);
+                }
+                else
+                {
+                    position = value;
+                    positionList.Add(name, position);
+                }
+            }
+        }
+        string baseFilter = Console.ReadLine();
+
+        PrintResult(baseFilter, ageList, salaryList, positionList);
+        
+    }
+
+    private static void PrintResult(string baseFilter, Dictionary<string, int> ageList, Dictionary<string, double> salaryList, Dictionary<string, string> positionList)
+    {
+        switch (baseFilter)
+        {
+            case "Age":
+                foreach (var item in ageList)
+                {
+                    Console.WriteLine($"Name: {item.Key}\nAge: {item.Value}");
+                    Console.WriteLine(new string('=', 20));
+                }
+                break;
+            case "Salary":
+                foreach (var item in salaryList)
+                {
+                    Console.WriteLine($"Name: {item.Key}\nSalary: {item.Value:0.00}");
+                    Console.WriteLine(new string('=', 20));
+                }
+                break;
+
+            case "Position":
+                foreach (var item in positionList)
+                {
+                    Console.WriteLine($"Name: {item.Key}\nPosition: {item.Value}");
+                    Console.WriteLine(new string('=', 20));
+                }
+                break;
+        }
+    }
+}

@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+class UserLogins
+{
+    static void Main(string[] args)
+    {
+        string[] separator = new string[] { " -> " };
+        string[] namesPass = Console.ReadLine().Split(separator, StringSplitOptions.RemoveEmptyEntries).ToArray();
+        Dictionary<string, string> pairs = new Dictionary<string, string>();
+        int unsucessfulCounter = 0;
+        while (!namesPass.Contains("login"))
+        {
+            string name = namesPass[0];
+            string pass = namesPass[1];
+            if (!pairs.ContainsKey(name))
+            {
+                pairs.Add(name, pass);
+            }
+            else
+            {
+                pairs[name] = pass;
+            }
+            namesPass = Console.ReadLine().Split(separator, StringSplitOptions.RemoveEmptyEntries).ToArray();
+        }
+        while (true)
+        {
+            namesPass = Console.ReadLine().Split(separator, StringSplitOptions.RemoveEmptyEntries).ToArray();
+            if (namesPass.Contains("end"))
+            {
+                break;
+            }
+            else
+            {
+                string name = namesPass[0];
+                string pass = namesPass[1];
+                if (pairs.ContainsKey(name))
+                {
+                    if (pairs[name] == pass)
+                    {
+                        Console.WriteLine($"{name}: logged in successfully");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{name}: login failed");
+                        unsucessfulCounter++;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"{name}: login failed");
+                    unsucessfulCounter++;
+                }
+            }
+        }
+        if (unsucessfulCounter > 0)
+        {
+            Console.WriteLine($"unsuccessful login attempts: {unsucessfulCounter}");
+        }
+    }
+}
